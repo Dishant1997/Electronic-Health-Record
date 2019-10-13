@@ -1,0 +1,22 @@
+Accuracy of logistic regression classifier on test set: 0.69
+
+
+Accuracy of SVM classifier on test set: 0.93
+
+
+Accuracy of Random Forest classifier on test set: 0.82
+
+
+Accuracy of Decision Tree classifier on test set: 0.76
+
+
+Accuracy of KNN classifier on test set: 0.71
+
+
+Accuracy of BackPropogation classifier on test set: 0.60
+
+
+Accuracy of Gaussian Naive Bayes classifier on test set: 0.68
+
+
+Accuracy of Multinomial Naive Bayes classifier on test set: 0.59

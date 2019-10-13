@@ -1,0 +1,220 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace org.example.mynetwork
+
+participant Patient identified by patientId {
+  o String patientId
+  //o String firstName
+  //o String lastName
+  //o Integer age 
+  // o String gender
+}
+
+participant Doctor identified by doctorId {
+  o String doctorId
+  // o String firstName
+  // o String lastName
+  // o String education
+  // o String designation
+  //o String institute
+  //o String specialization
+  //o Integer unsucessfulDiagnosis
+}
+
+participant Laboratory identified by laboratoryId {
+  o String laboratoryId
+  //o String name
+//   o String address
+//   o String city
+//   o String state
+//   o String country
+ }
+
+participant Insurer identified by insurerId {
+  o String insurerId
+  // o String name
+  // o String type
+  // o String address
+  // o String city
+  // o String state
+  // o String country
+}
+
+asset Diagnosis identified by diagnosisNumber {
+    o String diagnosisNumber
+    // o Double totalBilirubin
+    // o Double directBilirubin
+    // o Double alkalinePhosphotase
+    // o Double alamineAminotransferase
+    // o Double asparateAminotransferase
+    // o Double totalProtiens
+    // o Double albumin
+    // o Double albuminAndGlobulinRatio
+    --> Patient patient
+    --> Doctor doctor
+    --> Laboratory laboratory
+    --> Insurer insurer
+} 
+
+asset LabReport identified by labReportId {
+    o String labReportId
+
+    --> Patient patient
+    --> Laboratory laboratory
+} 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Patient uploads Diagnosis data on Blockchain
+transaction RegisterDiagnosis {
+  --> Diagnosis diagnosis
+  --> Patient patient
+}
+
+//Patient opts for analysis using AI Model
+transaction RequestDiagnosisAI {
+  --> Diagnosis diagnosis
+  --> Patient patient
+}
+
+//Patient sends data to a particular Doctor
+transaction RequestDiagnosisDoctor {
+  --> Diagnosis diagnosis
+  --> Patient patient
+  --> Doctor doctor
+}
+
+//Doctor sends its analysis by judging the data
+transaction ResultByDoctor {
+  --> Diagnosis diagnosis
+  --> Patient patient
+  --> Doctor doctor
+}
+
+//Patient ask for data from Laboratory
+transaction RequestDataLaboratory {
+  --> LabReport labReport
+  --> Patient patient
+  --> Laboratory laboratory
+}
+
+//Laboratory delivers Data
+transaction DataByLaboratory {
+  --> Diagnosis diagnosis
+  --> Patient patient
+  --> Laboratory laboratory
+}
+
+//Patient sends data for Insurance
+transaction SendDataInsurance {
+  --> Diagnosis diagnosis
+  --> Patient patient
+  --> Insurer insurer
+}
+
+//Insurance result
+transaction InsuranceResult {
+  --> Diagnosis diagnosis
+  --> Patient patient
+  --> Insurer insurer
+}
+
+transaction AddPatient {
+  --> Patient patient
+}
+
+transaction AddDoctor {
+  --> Doctor doctor
+}
+
+transaction AddLaboratory {
+  --> Laboratory laboratory
+}
+
+transaction AddInsurer {
+  --> Insurer insurer
+}
+
+transaction RemoveDoctor {
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+abstract event BasicEvent {
+}
+
+event requestedDiagnosis extends BasicEvent {
+  o String diagnosisNumber
+  o String patientId
+  o String doctorId
+}
+
+event requestedInsurance extends BasicEvent {
+  o String diagnosisNumber
+  o String patientId
+  o String insurerId
+}
+
+event requestedReports extends BasicEvent {
+  o String diagnosisNumber
+  o String patientId
+  o String laboratoryId
+}
+
+event delivered extends BasicEvent {
+  o String diagnosisNumber
+  o String patientId
+  o String doctorId
+  o String insurerId
+  o String laboratoryId
+}
+ 
+// event dispute extends BasicEvent {
+//   o String diagnosisNumber
+//   o String patientId
+//   o String doctorId
+//   o String insurerId
+//   o String laboratoryId
+// }
+ 
+// event resolved extends BasicEvent {
+//   o String diagnosisNumber
+//   o String patientId
+//   o String doctorId
+//   o String insurerId
+//   o String laboratoryId
+// }
+ 
+event requestPayment extends BasicEvent {
+  o String diagnosisNumber
+  o String patientId
+  o String doctorId
+  o String insurerId
+  o String laboratoryId
+}
+
+event Paid extends BasicEvent {
+  o String diagnosisNumber
+  o String patientId
+  o String doctorId
+  o String insurerId
+  o String laboratoryId
+}

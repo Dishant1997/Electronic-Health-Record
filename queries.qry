@@ -1,0 +1,22 @@
+/** Sample queries for Commodity Trading business network
+*/
+
+query selectDiagnosis {
+  description: "Select all Diagnosis"
+  statement:
+      SELECT org.example.mynetwork.Diagnosis
+}
+
+query selectDiagnosisByPatient {
+  description: "Select all patients with diagnosis value"
+  statement:
+      SELECT org.example.mynetwork.Diagnosis
+          WHERE (patient == _$patient)
+}
+
+/*query selectDoctorWithWrongDiagnosis {
+  description: "Select doctor based on diagnosis"
+  statement:
+      SELECT org.example.mynetwork.Doctor
+          WHERE (unsucessfulDiagnosis > 4)
+}*/
